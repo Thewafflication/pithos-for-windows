@@ -27,7 +27,7 @@ try:
 except:
     launchpad_available = False
 
-sys.path.append("C:\\Program Files (x86)\\OSSBuild\\GStreamer\\v0.10.7\\lib\\site-packages\\")
+sys.path.append("C:\\%s\\OSSBuild\\GStreamer\\v0.10.7\\lib\\site-packages\\" %(os.environ["ProgramFiles(x86)"]))
 
 import gst
 import cgi
