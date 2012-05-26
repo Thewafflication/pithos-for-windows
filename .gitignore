@@ -1,3 +1,4 @@
 *.pyc
 *.msi
+*.exe
 /pithos/pithos.ini

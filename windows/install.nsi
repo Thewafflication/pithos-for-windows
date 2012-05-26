@@ -63,8 +63,8 @@ SectionEnd
 
 Section "GTK 2.24"
 SetOutPath "$TEMP\Pithos"
-File "pygtk-2.24.0.win32-py2.7.msi"
-ExecWait 'msiexec /i "$TEMP\Pithos\pygtk-2.24.0.win32-py2.7.msi'
+File "pygtk-all-in-one-2.24.2.win32-py2.7.msi"
+ExecWait 'msiexec /i "$TEMP\Pithos\pygtk-all-in-one-2.24.2.win32-py2.7.msi'
 SectionEnd
 
 Section "Uninstall"
