@@ -27,14 +27,16 @@ try:
 except:
     launchpad_available = False
 
+sys.path.append("C:\\Program Files (x86)\\OSSBuild\\GStreamer\\v0.10.7\\lib\\site-packages\\")
+
 import gst
 import cgi
 import webbrowser
 import os
 import urllib
-import dbus
-from dbus.mainloop.glib import DBusGMainLoop
-DBusGMainLoop(set_as_default=True)
+#import dbus
+#from dbus.mainloop.glib import DBusGMainLoop
+#DBusGMainLoop(set_as_default=True)
 
 # Check if we are working in the source tree or from the installed 
 # package and mangle the python path accordingly
@@ -52,8 +54,8 @@ from pithos import AboutPithosDialog, PreferencesPithosDialog, StationsDialog
 from pithos.pithosconfig import get_data_file, getdatapath, VERSION
 from pithos.gobject_worker import GObjectWorker
 from pithos.plugin import load_plugins
-from pithos.dbus_service import PithosDBusProxy, try_to_raise
-from pithos.sound_menu import PithosSoundMenu
+#from pithos.dbus_service import PithosDBusProxy, try_to_raise
+#from pithos.sound_menu import PithosSoundMenu
 from pithos.pandora import *
 
 
@@ -177,8 +179,8 @@ class PithosWindow(gtk.Window):
         self.plugins = {}
         load_plugins(self)
         
-        self.dbus_service = PithosDBusProxy(self)
-        self.sound_menu = PithosSoundMenu(self)
+        #self.dbus_service = PithosDBusProxy(self)
+        #self.sound_menu = PithosSoundMenu(self)
         
         if not self.preferences['username']:
             self.show_preferences(is_startup=True)
@@ -815,7 +817,7 @@ if __name__ == "__main__":
     parser.add_option("-t", "--test", action="store_true", dest="test", help="Use a mock web interface instead of connecting to the real Pandora server")
     (options, args) = parser.parse_args()
             
-    if not options.test and try_to_raise():
+    if False: # not options.test: and try_to_raise():
         print "Raised existing Pithos instance"
     else:
         

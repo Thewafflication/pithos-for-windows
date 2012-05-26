@@ -14,7 +14,7 @@
 #with this program.  If not, see <http://www.gnu.org/licenses/>.
 ### END LICENSE
 
-import dbus.service
+#import dbus.service
 
 DBUS_BUS = "net.kevinmehall.Pithos"
 DBUS_OBJECT_PATH = "/net/kevinmehall/Pithos"
