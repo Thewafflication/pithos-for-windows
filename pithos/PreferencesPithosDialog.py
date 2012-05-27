@@ -30,8 +30,17 @@ try:
     config_home = xdg_config_home
 except ImportError:
     config_home = os.path.dirname(__file__)
+
+if sys.platform == 'win32':
+    windows = True
+else:
+    windows = False
     
-configfilename = os.path.join(config_home, 'pithos.ini')
+if windows:
+    configfilename = os.path.join(os.environ['appdata'], 'Pithos\\pithos.ini')
+else:
+    configfilename = os.path.join(config_home, 'pithos.ini')
+
 
 class PreferencesPithosDialog(gtk.Dialog):
     __gtype_name__ = "PreferencesPithosDialog"
@@ -177,9 +186,10 @@ class PreferencesPithosDialog(gtk.Dialog):
         audio_pref_idx = list(valid_audio_formats).index(self.__preferences["audio_format"])
         audio_format_combo.set_active(audio_pref_idx)
         
-        
-        self.builder.get_object('checkbutton_notify').set_active(self.__preferences["notify"])
-        self.builder.get_object('checkbutton_screensaverpause').set_active(self.__preferences["enable_screensaverpause"])
+        if not windows:
+            # to be fixed/improved
+            self.builder.get_object('checkbutton_notify').set_active(self.__preferences["notify"])
+            self.builder.get_object('checkbutton_screensaverpause').set_active(self.__preferences["enable_screensaverpause"])
         self.builder.get_object('checkbutton_icon').set_active(self.__preferences["show_icon"])
         
         self.lastfm_auth = LastFmAuth(self.__preferences, "lastfm_key", self.builder.get_object('lastfm_btn'))
@@ -193,8 +203,9 @@ class PreferencesPithosDialog(gtk.Dialog):
         self.__preferences["password"] = self.builder.get_object('prefs_password').get_text()
         self.__preferences["proxy"] = self.builder.get_object('prefs_proxy').get_text()
         self.__preferences["audio_format"] = valid_audio_formats[self.builder.get_object('prefs_audio_format').get_active()]
-        self.__preferences["notify"] = self.builder.get_object('checkbutton_notify').get_active()
-        self.__preferences["enable_screensaverpause"] = self.builder.get_object('checkbutton_screensaverpause').get_active()
+        if not windows:
+            self.__preferences["notify"] = self.builder.get_object('checkbutton_notify').get_active()
+            self.__preferences["enable_screensaverpause"] = self.builder.get_object('checkbutton_screensaverpause').get_active()
         self.__preferences["show_icon"] = self.builder.get_object('checkbutton_icon').get_active()
         
         self.save()

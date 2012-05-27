@@ -27,16 +27,23 @@ try:
 except:
     launchpad_available = False
 
-sys.path.append("%s\\OSSBuild\\GStreamer\\v0.10.7\\lib\\site-packages\\" %(os.environ["ProgramFiles"]))
+if sys.platform == 'win32':
+    windows = True
+else:
+    windows = False
 
-import gst
 import cgi
 import webbrowser
 import os
 import urllib
-#import dbus
-#from dbus.mainloop.glib import DBusGMainLoop
-#DBusGMainLoop(set_as_default=True)
+if not windows:
+    import dbus
+    from dbus.mainloop.glib import DBusGMainLoop
+    DBusGMainLoop(set_as_default=True)
+else:
+    sys.path.append("%s\\OSSBuild\\GStreamer\\v0.10.7\\lib\\site-packages\\" %(os.environ["ProgramFiles"]))
+
+import gst
 
 # Check if we are working in the source tree or from the installed 
 # package and mangle the python path accordingly
@@ -54,8 +61,9 @@ from pithos import AboutPithosDialog, PreferencesPithosDialog, StationsDialog
 from pithos.pithosconfig import get_data_file, getdatapath, VERSION
 from pithos.gobject_worker import GObjectWorker
 from pithos.plugin import load_plugins
-#from pithos.dbus_service import PithosDBusProxy, try_to_raise
-#from pithos.sound_menu import PithosSoundMenu
+if not windows:
+    from pithos.dbus_service import PithosDBusProxy, try_to_raise
+    from pithos.sound_menu import PithosSoundMenu
 from pithos.pandora import *
 
 
@@ -179,8 +187,9 @@ class PithosWindow(gtk.Window):
         self.plugins = {}
         load_plugins(self)
         
-        #self.dbus_service = PithosDBusProxy(self)
-        #self.sound_menu = PithosSoundMenu(self)
+        if not windows:
+            self.dbus_service = PithosDBusProxy(self)
+            self.sound_menu = PithosSoundMenu(self)
         
         if not self.preferences['username']:
             self.show_preferences(is_startup=True)
@@ -816,9 +825,14 @@ if __name__ == "__main__":
     parser.add_option("-v", "--verbose", action="store_true", dest="verbose", help="Show debug messages")
     parser.add_option("-t", "--test", action="store_true", dest="test", help="Use a mock web interface instead of connecting to the real Pandora server")
     (options, args) = parser.parse_args()
-            
-    if False: # not options.test: and try_to_raise():
-        print "Raised existing Pithos instance"
+     
+
+    if windows:
+        def try_to_raise():
+            return False
+
+    if not options.test and try_to_raise():
+            print "Raised existing Pithos instance"
     else:
         
         #set the logging level to show debug messages
