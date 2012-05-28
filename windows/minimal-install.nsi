@@ -7,7 +7,6 @@ RequestExecutionLevel admin
 !include MUI2.nsh
 !insertmacro Locate
 var /GLOBAL switch_overwrite
-#StrCpy $switch_overwrite 1
 !include "MoveFileFolder.nsh"
 Var StartMenuFolder
 
@@ -37,21 +36,23 @@ WriteUninstaller "$INSTDIR\Uninstall.exe"
 WriteRegStr HKCU "Software\Pithos" "" $INSTDIR
 !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
 CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
-CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Pithos.lnk" "$INSTDIR\pithos.pyw" "${MUI_ICON}"
+CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Pithos.lnk" "$INSTDIR\pithos.pyw" "%PROGRAMFILES%/Pithos/data/icons/pithos-small.ico"
 CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
 !insertmacro MUI_STARTMENU_WRITE_END
 SectionEnd
 
-Section "GStreamer 0.10.7"
+Section "GStreamer 0.10.7 (SDK Only)"
 SectionIn RO
 SetOutPath "$TEMP\Pithos"
 File "GStreamer-WinBuilds-SDK-GPL-x86-Beta04-0.10.7.msi"
-ExecWait 'msiexec /i "$TEMP\Pithos\GStreamer-WinBuilds-SDK-GPL-x86-Beta04-0.10.7.msi" /qn'
+ExecWait 'msiexec /i "$TEMP\Pithos\GStreamer-WinBuilds-SDK-GPL-x86-Beta04-0.10.7.msi" /qn+'
 # moving gstreamer stuff around sucks...
 StrCpy $switch_overwrite 1
-!insertmacro MoveFolder "$PROGRAMFILES\OSSBuild\GStreamer\v0.10.7\lib\site-packages\gst-0.10\gst\"  "$PROGRAMFILES\OSSBuild\GStreamer\v0.10.7\lib\site-packages\gst\" ""
+!insertmacro MoveFolder "$PROGRAMFILES\OSSBuild\GStreamer\v0.10.7\sdk\bindings\python\v2.7\lib\" "$PROGRAMFILES\OSSBuild\GStreamer\v0.10.7\lib\" "*"
+!insertmacro MoveFolder "$PROGRAMFILES\OSSBuild\GStreamer\v0.10.7\sdk\bindings\python\v2.7\share\" "$PROGRAMFILES\OSSBuild\GStreamer\v0.10.7\share\" "*"
+!insertmacro MoveFolder "$PROGRAMFILES\OSSBuild\GStreamer\v0.10.7\lib\site-packages\gst-0.10\gst\"  "$PROGRAMFILES\OSSBuild\GStreamer\v0.10.7\lib\site-packages\gst\" "*"
 Delete "$PROGRAMFILES\OSSBuild\GStreamer\v0.10.7\lib\gstreamer-0.10\libgstpython-v2.6.dll"
-!insertmacro MoveFolder "$PROGRAMFILES\OSSBuild\GStreamer\v0.10.7\sdk\bindings\python\v2.7\lib" "$PROGRAMFILES\OSSBuild\GStreamer\v0.10.7\lib" ""
+Delete "$PROGRAMFILES\OSSBuild\GStreamer\v0.10.7\lib\gstreamer-0.10\lib\site-packages\gst-0.10\"
 SectionEnd
 
 Section "Uninstall"
