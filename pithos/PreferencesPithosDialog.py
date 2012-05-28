@@ -92,17 +92,17 @@ class PreferencesPithosDialog(gtk.Dialog):
         self.__preferences = {
             "username":'',
             "password":'',
-            "notify":True,
+            "notify":False,
             "last_station_id":None,
             "proxy":'',
             "show_icon": False,
             "lastfm_key": False,
-            "enable_mediakeys":True,
+            "enable_mediakeys":False,
             "enable_screensaverpause":False,
-            "volume": 1.0,
+            "volume": 0.5,
             # If set, allow insecure permissions. Implements CVE-2011-1500
-            "unsafe_permissions": False,
-            "audio_format": valid_audio_formats[0],
+            "unsafe_permissions": True,
+            "audio_format": valid_audio_formats[2],
         }
         
         try:
@@ -121,6 +121,9 @@ class PreferencesPithosDialog(gtk.Dialog):
         self.setup_fields()
 
     def fix_perms(self):
+
+        if windows:
+            return False
         """Apply new file permission rules, fixing CVE-2011-1500.
         If the file is 0644 and if "unsafe_permissions" is not True, 
            chmod 0600
@@ -167,11 +170,17 @@ class PreferencesPithosDialog(gtk.Dialog):
 
     def save(self):         
         existed = os.path.exists(configfilename)
-        f = open(configfilename, 'w')
+        try:
+            f = open(configfilename, 'w')
+        except IOError:
+            pass
 
-        if not existed:
+        if not existed and not windows:
             # make the file owner-readable and writable only
-            os.fchmod(f.fileno(), (stat.S_IRUSR | stat.S_IWUSR))
+            os.fchmod(f.fileno(), (stat.S_IRUSR | stat.S_IWUSR)) 
+        elif not existed and windows:
+            os.makedirs(configfilename[:-10])
+            f = open(configfilename, 'w')
 
         for key in self.__preferences:
             f.write('%s=%s\n'%(key, self.__preferences[key]))
