@@ -746,10 +746,12 @@ class PithosWindow(gtk.Window):
         
     def open_web_site(self, *ignore):
         openBrowser("http://kevinmehall.net/p/pithos?utm_source=pithos&utm_medium=app&utm_campaign=%s"%VERSION)
-        
+        openBrowser("https://github.com/TingPing/pithos-for-windows/")
+ 
     def report_bug(self, *ignore):
-        openBrowser("https://bugs.launchpad.net/pithos")
-        
+        # openBrowser("https://bugs.launchpad.net/pithos")
+        openBrowser("https://github.com/TingPing/pithos-for-windows/issues")
+
     def about(self, widget, data=None):
         """about - display the about box for pithos """
         about = AboutPithosDialog.NewAboutPithosDialog()
@@ -829,6 +831,7 @@ if __name__ == "__main__":
 
     if windows:
         def try_to_raise():
+            # use pid to see if already running?
             return False
 
     if not options.test and try_to_raise():
@@ -836,10 +839,11 @@ if __name__ == "__main__":
     else:
         
         #set the logging level to show debug messages
+        logfile = os.path.join(os.environ['appdata'], 'Pithos\\pithos.log')
         if options.verbose:
-            logging.basicConfig(level=logging.INFO, format='%(levelname)s - %(module)s:%(funcName)s:%(lineno)d - %(message)s')
+            logging.basicConfig(level=logging.INFO, format='%(levelname)s - %(module)s:%(funcName)s:%(lineno)d - %(message)s', filename=logfile)
         else:
-            logging.basicConfig(level=logging.WARNING)
+            logging.basicConfig(level=logging.WARNING, filename=logfile)
             
         logging.info("Pithos %s"%VERSION)
             

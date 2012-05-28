@@ -93,11 +93,12 @@ class PreferencesPithosDialog(gtk.Dialog):
             "username":'',
             "password":'',
             "notify":False,
+            "growl":False,
             "last_station_id":None,
             "proxy":'',
             "show_icon": False,
             "lastfm_key": False,
-            "enable_mediakeys":False,
+            "enable_mediakeys":True,
             "enable_screensaverpause":False,
             "volume": 0.5,
             # If set, allow insecure permissions. Implements CVE-2011-1500
@@ -200,6 +201,7 @@ class PreferencesPithosDialog(gtk.Dialog):
             self.builder.get_object('checkbutton_notify').set_active(self.__preferences["notify"])
             self.builder.get_object('checkbutton_screensaverpause').set_active(self.__preferences["enable_screensaverpause"])
         self.builder.get_object('checkbutton_icon').set_active(self.__preferences["show_icon"])
+        self.builder.get_object('checkbutton_growl').set_active(self.__preferences["growl"])
         
         self.lastfm_auth = LastFmAuth(self.__preferences, "lastfm_key", self.builder.get_object('lastfm_btn'))
         

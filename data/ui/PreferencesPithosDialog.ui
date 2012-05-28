@@ -169,6 +169,21 @@
               </packing>
             </child>
             <child>
+              <object class="GtkCheckButton" id="checkbutton_growl">
+                <property name="label" translatable="yes">Use Growl Notifications</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="draw_indicator">True</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">3</property>
+                <property name="top_attach">8</property>
+                <property name="bottom_attach">9</property>
+              </packing>
+            </child>
+            <child>
               <object class="GtkCheckButton" id="checkbutton_icon">
                 <property name="label" translatable="yes">Show notification area icon</property>
                 <property name="visible">True</property>
