@@ -1,5 +1,5 @@
 Name "Pithos"
-OutFile "Pithos_Installer.exe"
+OutFile "Pithos_Full_Installer.exe"
 InstallDir "$PROGRAMFILES\Pithos\"
 RequestExecutionLevel admin
 
@@ -7,7 +7,6 @@ RequestExecutionLevel admin
 !include MUI2.nsh
 !insertmacro Locate
 var /GLOBAL switch_overwrite
-#StrCpy $switch_overwrite 1
 !include "MoveFileFolder.nsh"
 Var StartMenuFolder
 
@@ -37,7 +36,7 @@ WriteUninstaller "$INSTDIR\Uninstall.exe"
 WriteRegStr HKCU "Software\Pithos" "" $INSTDIR
 !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
 CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
-CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Pithos.lnk" "$INSTDIR\pithos.pyw" "$INSTDIR\data\icons\pithos-small.ico"
+CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Pithos.lnk" "$INSTDIR\pithos.pyw" "%ProgramFiles%\Pithos\data\icons\pithos-small.ico"
 CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
 !insertmacro MUI_STARTMENU_WRITE_END
 SectionEnd
@@ -45,20 +44,22 @@ SectionEnd
 Section "Python 2.7.3"
 SetOutPath "$TEMP\Pithos"
 File "python-2.7.3.msi"
-ExecWait 'msiexec TARGETDIR="$PROGRAMFILES\Python" /i "$TEMP\Pithos\python-2.7.3.msi" /qn+'
+ExecWait 'msiexec TARGETDIR="$PROGRAMFILES\Python" /i "$TEMP\Pithos\python-2.7.3.msi" /qn'
 SectionEnd
 
 Section "GStreamer 0.10.7"
 SetOutPath "$TEMP\Pithos"
 File "GStreamer-WinBuilds-GPL-x86-Beta04-0.10.7.msi"
 File "GStreamer-WinBuilds-SDK-GPL-x86-Beta04-0.10.7.msi"
-ExecWait 'msiexec /i "$TEMP\Pithos\GStreamer-WinBuilds-GPL-x86-Beta04-0.10.7.msi" /qn+'
+ExecWait 'msiexec /i "$TEMP\Pithos\GStreamer-WinBuilds-GPL-x86-Beta04-0.10.7.msi" /qn'
 ExecWait 'msiexec /i "$TEMP\Pithos\GStreamer-WinBuilds-SDK-GPL-x86-Beta04-0.10.7.msi" /qn+'
 # moving gstreamer stuff around sucks...
 StrCpy $switch_overwrite 1
-!insertmacro MoveFolder "$PROGRAMFILES\OSSBuild\GStreamer\v0.10.7\lib\site-packages\gst-0.10\gst\"  "$PROGRAMFILES\OSSBuild\GStreamer\v0.10.7\lib\site-packages\gst\" ""
+!insertmacro MoveFolder "$PROGRAMFILES\OSSBuild\GStreamer\v0.10.7\sdk\bindings\python\v2.7\lib\" "$PROGRAMFILES\OSSBuild\GStreamer\v0.10.7\lib\" "*"
+!insertmacro MoveFolder "$PROGRAMFILES\OSSBuild\GStreamer\v0.10.7\sdk\bindings\python\v2.7\share\" "$PROGRAMFILES\OSSBuild\GStreamer\v0.10.7\share\" "*"
+!insertmacro MoveFolder "$PROGRAMFILES\OSSBuild\GStreamer\v0.10.7\lib\site-packages\gst-0.10\gst\"  "$PROGRAMFILES\OSSBuild\GStreamer\v0.10.7\lib\site-packages\gst\" "*"
 Delete "$PROGRAMFILES\OSSBuild\GStreamer\v0.10.7\lib\gstreamer-0.10\libgstpython-v2.6.dll"
-!insertmacro MoveFolder "$PROGRAMFILES\OSSBuild\GStreamer\v0.10.7\sdk\bindings\python\v2.7\lib" "$PROGRAMFILES\OSSBuild\GStreamer\v0.10.7\lib" ""
+Delete "$PROGRAMFILES\OSSBuild\GStreamer\v0.10.7\lib\gstreamer-0.10\lib\site-packages\gst-0.10\"
 SectionEnd
 
 Section "GTK 2.24"

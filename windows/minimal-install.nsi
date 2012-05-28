@@ -36,7 +36,7 @@ WriteUninstaller "$INSTDIR\Uninstall.exe"
 WriteRegStr HKCU "Software\Pithos" "" $INSTDIR
 !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
 CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
-CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Pithos.lnk" "$INSTDIR\pithos.pyw" "%PROGRAMFILES%/Pithos/data/icons/pithos-small.ico"
+CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Pithos.lnk" "$INSTDIR\pithos.pyw" "%ProgramFiles%\Pithos\data\icons\pithos-small.ico"
 CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
 !insertmacro MUI_STARTMENU_WRITE_END
 SectionEnd
