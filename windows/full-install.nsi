@@ -16,10 +16,13 @@ Var StartMenuFolder
 !define MUI_ICON "data\icons\pithos-small.ico"
 
 !insertmacro MUI_PAGE_LICENSE ..\LICENSE
-Page components
-Page directory
+!insertmacro MUI_PAGE_COMPONENTS
+!insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_STARTMENU Application $StartMenuFolder
-Page instfiles
+!insertmacro MUI_PAGE_INSTFILES
+
+!insertmacro MUI_UNPAGE_CONFIRM
+!insertmacro MUI_UNPAGE_INSTFILES
 
 !insertmacro MUI_UNPAGE_CONFIRM
 !insertmacro MUI_UNPAGE_INSTFILES
@@ -36,7 +39,7 @@ WriteUninstaller "$INSTDIR\Uninstall.exe"
 WriteRegStr HKCU "Software\Pithos" "" $INSTDIR
 !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
 CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
-CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Pithos.lnk" "$INSTDIR\pithos.pyw" "" "$ProgramFiles\Pithos\data\icons\pithos-small.ico"
+CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Pithos.lnk" "$INSTDIR\pithos.pyw" "" "$INSTDIR\data\icons\pithos-small.ico"
 CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
 !insertmacro MUI_STARTMENU_WRITE_END
 SectionEnd
