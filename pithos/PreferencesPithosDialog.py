@@ -98,12 +98,12 @@ class PreferencesPithosDialog(gtk.Dialog):
             "proxy":'',
             "show_icon": False,
             "lastfm_key": False,
-            "enable_mediakeys":True,
+            "enable_mediakeys": False,
             "enable_screensaverpause":False,
             "volume": 0.5,
             # If set, allow insecure permissions. Implements CVE-2011-1500
             "unsafe_permissions": True,
-            "audio_format": valid_audio_formats[2],
+            "audio_format": valid_audio_formats[1],
         }
         
         try:
