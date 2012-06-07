@@ -849,5 +849,6 @@ if __name__ == "__main__":
             
         window = NewPithosWindow(options)
         window.show()
+        window.set_icon_from_file('./data/icons/pithos-small.ico')
         gtk.main()
 
