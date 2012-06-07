@@ -32,7 +32,7 @@ class GrowlPlugin(PithosPlugin):
 		try:
 			self.growl.notify(
 				noteType='Song Changed',
-				title='Now Playing - %s' %(song.title),
+				title=song.title,
 				description='by %s on %s' %(song.artist, song.album),
 				icon=self.pithosicon,
 				sticky=False,
