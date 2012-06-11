@@ -25,21 +25,7 @@ import gobject
 from pithos.pithosconfig import getdatapath, valid_audio_formats
 from pithos.plugins.scrobble import LastFmAuth
 
-try:
-    from xdg.BaseDirectory import xdg_config_home
-    config_home = xdg_config_home
-except ImportError:
-    config_home = os.path.dirname(__file__)
-
-if sys.platform == 'win32':
-    windows = True
-else:
-    windows = False
-    
-if windows:
-    configfilename = os.path.join(os.environ['appdata'], 'Pithos\\pithos.ini')
-else:
-    configfilename = os.path.join(config_home, 'pithos.ini')
+configfilename = os.path.join(os.environ['appdata'], 'Pithos\\pithos.ini')
 
 
 class PreferencesPithosDialog(gtk.Dialog):
@@ -101,8 +87,6 @@ class PreferencesPithosDialog(gtk.Dialog):
             "enable_mediakeys": False,
             "enable_screensaverpause":False,
             "volume": 0.5,
-            # If set, allow insecure permissions. Implements CVE-2011-1500
-            "unsafe_permissions": True,
             "audio_format": valid_audio_formats[1],
         }
         
@@ -121,54 +105,6 @@ class PreferencesPithosDialog(gtk.Dialog):
             self.__preferences[key]=val
         self.setup_fields()
 
-    def fix_perms(self):
-
-        if windows:
-            return False
-        """Apply new file permission rules, fixing CVE-2011-1500.
-        If the file is 0644 and if "unsafe_permissions" is not True, 
-           chmod 0600
-        If the file is world-readable (but not exactly 0644) and if 
-        "unsafe_permissions" is not True:
-           chmod o-rw
-        """
-        def complain_unsafe():
-            # Display this message iff permissions are unsafe, which is why
-            #   we don't just check once and be done with it. 
-            logging.warning("Ignoring potentially unsafe permissions due to user override.")
-        
-        changed = False
-        
-        if os.path.exists(configfilename):
-            # We've already written the file, get current permissions
-            config_perms = stat.S_IMODE(os.stat(configfilename).st_mode)
-            if config_perms == (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH):
-                if self.__preferences["unsafe_permissions"]:
-                    return complain_unsafe()
-                # File is 0644, set to 0600
-                logging.warning("Removing world- and group-readable permissions, to fix CVE-2011-1500 in older software versions. To force, set unsafe_permissions to True in pithos.ini.")
-                os.chmod(configfilename, stat.S_IRUSR | stat.S_IWUSR)
-                changed = True
-                
-            elif config_perms & stat.S_IROTH:
-                if self.__preferences["unsafe_permissions"]:
-                    return complain_unsafe()
-                # File is o+r, 
-                logging.warning("Removing world-readable permissions, configuration should not be globally readable. To force, set unsafe_permissions to True in pithos.ini.")
-                config_perms ^= stat.S_IROTH
-                os.chmod(configfilename, config_perms)
-                changed = True
-
-            if config_perms & stat.S_IWOTH:
-                if self.__preferences["unsafe_permissions"]:
-                    return complain_unsafe()
-                logging.warning("Removing world-writable permissions, configuration should not be globally writable. To force, set unsafe_permissions to True in pithos.ini.")
-                config_perms ^= stat.S_IWOTH
-                os.chmod(configfilename, config_perms)
-                changed = True
-        
-        return changed
-
     def save(self):         
         existed = os.path.exists(configfilename)
         try:
@@ -176,10 +112,7 @@ class PreferencesPithosDialog(gtk.Dialog):
         except IOError:
             pass
 
-        if not existed and not windows:
-            # make the file owner-readable and writable only
-            os.fchmod(f.fileno(), (stat.S_IRUSR | stat.S_IWUSR)) 
-        elif not existed and windows:
+        if not existed:
             os.makedirs(configfilename[:-10])
             f = open(configfilename, 'w')
 
@@ -196,10 +129,6 @@ class PreferencesPithosDialog(gtk.Dialog):
         audio_pref_idx = list(valid_audio_formats).index(self.__preferences["audio_format"])
         audio_format_combo.set_active(audio_pref_idx)
         
-        if not windows:
-            # to be fixed/improved
-            self.builder.get_object('checkbutton_notify').set_active(self.__preferences["notify"])
-            self.builder.get_object('checkbutton_screensaverpause').set_active(self.__preferences["enable_screensaverpause"])
         self.builder.get_object('checkbutton_icon').set_active(self.__preferences["show_icon"])
         self.builder.get_object('checkbutton_growl').set_active(self.__preferences["growl"])
         
@@ -214,9 +143,6 @@ class PreferencesPithosDialog(gtk.Dialog):
         self.__preferences["password"] = self.builder.get_object('prefs_password').get_text()
         self.__preferences["proxy"] = self.builder.get_object('prefs_proxy').get_text()
         self.__preferences["audio_format"] = valid_audio_formats[self.builder.get_object('prefs_audio_format').get_active()]
-        if not windows:
-            self.__preferences["notify"] = self.builder.get_object('checkbutton_notify').get_active()
-            self.__preferences["enable_screensaverpause"] = self.builder.get_object('checkbutton_screensaverpause').get_active()
         self.__preferences["show_icon"] = self.builder.get_object('checkbutton_icon').get_active()
         
         self.save()

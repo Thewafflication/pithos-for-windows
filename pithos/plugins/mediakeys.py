@@ -17,50 +17,9 @@
 from pithos.plugin import PithosPlugin
 import logging
 
-APP_ID = 'Pithos'
-
 class MediaKeyPlugin(PithosPlugin):
     preference = 'enable_mediakeys'
     
-    def bind_dbus(self):
-        try:
-            import dbus
-            bus = dbus.Bus(dbus.Bus.TYPE_SESSION)
-            mk = bus.get_object("org.gnome.SettingsDaemon","/org/gnome/SettingsDaemon/MediaKeys")
-            mk.GrabMediaPlayerKeys(APP_ID, 0, dbus_interface='org.gnome.SettingsDaemon.MediaKeys')
-            mk.connect_to_signal("MediaPlayerKeyPressed", self.mediakey_pressed)
-            logging.info("Bound media keys with DBUS")
-            self.method = 'dbus'
-            return True
-        except (dbus.DBusException, ImportError):
-            return False
-            
-    def mediakey_pressed(self, app, action):
-       if app == APP_ID:
-            if action == 'Play':
-                self.window.playpause_notify()
-            elif action == 'Next':
-                self.window.next_song()
-            elif action == 'Stop':
-                self.window.user_pause()
-            elif action == 'Previous':
-                self.window.bring_to_top()
-            
-    def bind_keybinder(self):
-        try:
-            import keybinder
-        except:
-            return False
-        
-        keybinder.bind('XF86AudioPlay', self.window.playpause, None)
-        keybinder.bind('XF86AudioStop', self.window.user_pause, None)
-        keybinder.bind('XF86AudioNext', self.window.next_song, None)
-        keybinder.bind('XF86AudioPrev', self.window.bring_to_top, None)
-        
-        logging.info("Bound media keys with keybinder")
-        self.method = 'keybinder'
-        return True
-
     def bind_keybinderwin32(self):
         try: 
             import win32api
@@ -80,10 +39,8 @@ class MediaKeyPlugin(PithosPlugin):
         return True
         
     def on_enable(self):
-        if windows:
-            self.bind_keybinderwin32()
-        else:
-            self.bind_dbus() or self.bind_keybinder() or logging.error("Could not bind media keys")     
+        pass #not working atm
+        #self.bind_keybinderwin32()
         
     def on_disable(self):
         logging.error("Not implemented: Can't disable media keys")

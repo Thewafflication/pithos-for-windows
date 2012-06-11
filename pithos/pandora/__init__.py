@@ -19,7 +19,7 @@ from pandora import *
 
 def make_pandora(testing=False):
     if testing:
-        from pandora.fake import FakePandora
+        from fake import FakePandora
         return FakePandora()
     else:
         return Pandora()

@@ -28,11 +28,6 @@ import math
 import os
 import urllib
 
-if sys.platform == 'win32':
-	windows = True
-else:
-	windows = False
-
 launchpad_available = False
 
 # Check if we are working in the source tree or from the installed 
@@ -165,18 +160,11 @@ class PithosWindow(gtk.Window):
 		self.prefs_dlg = PreferencesPithosDialog.NewPreferencesPithosDialog()
 		self.preferences = self.prefs_dlg.get_preferences()
 		
-		if self.prefs_dlg.fix_perms():
-			# Changes were made, save new config variable
-			self.prefs_dlg.save()
 		self.init_core()
 		self.init_ui()
 		
 		self.plugins = {}
 		load_plugins(self)
-		
-		if not windows:
-			self.dbus_service = PithosDBusProxy(self)
-			self.sound_menu = PithosSoundMenu(self)
 		
 		if not self.preferences['username']:
 			self.show_preferences(is_startup=True)
@@ -829,10 +817,9 @@ if __name__ == "__main__":
 	(options, args) = parser.parse_args()
 	 
 
-	if windows:
-		def try_to_raise():
-			# will get working on windows soon
-			return False
+	def try_to_raise():
+		# will get working on windows soon
+		return False
 
 	if not options.test and try_to_raise():
 			print "Raised existing Pithos instance"
