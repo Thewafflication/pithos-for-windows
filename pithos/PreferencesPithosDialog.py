@@ -55,14 +55,14 @@ class PreferencesPithosDialog(gtk.Dialog):
         self.builder.connect_signals(self)
         
         # initialize the "Audio format" combobox backing list
-        audio_format_combo = self.builder.get_object('prefs_audio_format')
+        audio_quality_combo = self.builder.get_object('prefs_audio_quality')
         fmt_store = gtk.ListStore(gobject.TYPE_STRING)
-        for audio_format in valid_audio_formats:
-            fmt_store.append((audio_format,))
-        audio_format_combo.set_model(fmt_store)
+        for audio_format, quality in valid_audio_formats:
+            fmt_store.append((quality,))
+        audio_quality_combo.set_model(fmt_store)
         render_text = gtk.CellRendererText()
-        audio_format_combo.pack_start(render_text, expand=True)
-        audio_format_combo.add_attribute(render_text, "text", 0)
+        audio_quality_combo.pack_start(render_text, expand=True)
+        audio_quality_combo.add_attribute(render_text, "text", 0)
         
         self.__load_preferences()
 
@@ -78,6 +78,7 @@ class PreferencesPithosDialog(gtk.Dialog):
         self.__preferences = {
             "username":'',
             "password":'',
+            "pandora_one":False,
             "notify":False,
             "growl":False,
             "last_station_id":None,
@@ -87,7 +88,7 @@ class PreferencesPithosDialog(gtk.Dialog):
             "enable_mediakeys": False,
             "enable_screensaverpause":False,
             "volume": 0.5,
-            "audio_format": valid_audio_formats[1],
+            "audio_quality": valid_audio_formats[0][0],
         }
         
         try:
@@ -98,11 +99,12 @@ class PreferencesPithosDialog(gtk.Dialog):
         for line in f:
             sep = line.find('=')
             key = line[:sep]
-            val = line[sep+1:].strip()
-            if val == 'None': val=None
-            elif val == 'False': val=False
-            elif val == 'True': val=True
-            self.__preferences[key]=val
+            if key in self.__preferences:
+                val = line[sep+1:].strip()
+                if val == 'None': val=None
+                elif val == 'False': val=False
+                elif val == 'True': val=True
+                self.__preferences[key]=val
         self.setup_fields()
 
     def save(self):         
@@ -123,11 +125,15 @@ class PreferencesPithosDialog(gtk.Dialog):
     def setup_fields(self):
         self.builder.get_object('prefs_username').set_text(self.__preferences["username"])
         self.builder.get_object('prefs_password').set_text(self.__preferences["password"])
+        self.builder.get_object('checkbutton_pandora_one').set_active(self.__preferences["pandora_one"])
         self.builder.get_object('prefs_proxy').set_text(self.__preferences["proxy"])
         
-        audio_format_combo = self.builder.get_object('prefs_audio_format')       
-        audio_pref_idx = list(valid_audio_formats).index(self.__preferences["audio_format"])
-        audio_format_combo.set_active(audio_pref_idx)
+        audio_quality_combo = self.builder.get_object('prefs_audio_quality')
+        try:
+            audio_pref_idx = list(audio_format for audio_format, quality in valid_audio_formats).index(self.__preferences["audio_quality"])
+        except ValueError:
+            audio_pref_idx = 0
+        audio_quality_combo.set_active(audio_pref_idx)
         
         self.builder.get_object('checkbutton_icon').set_active(self.__preferences["show_icon"])
         self.builder.get_object('checkbutton_growl').set_active(self.__preferences["growl"])
@@ -141,8 +147,9 @@ class PreferencesPithosDialog(gtk.Dialog):
         
         self.__preferences["username"] = self.builder.get_object('prefs_username').get_text()
         self.__preferences["password"] = self.builder.get_object('prefs_password').get_text()
+        self.__preferences["pandora_one"] = self.builder.get_object('checkbutton_pandora_one').get_active()
         self.__preferences["proxy"] = self.builder.get_object('prefs_proxy').get_text()
-        self.__preferences["audio_format"] = valid_audio_formats[self.builder.get_object('prefs_audio_format').get_active()]
+        self.__preferences["audio_quality"] = valid_audio_formats[self.builder.get_object('prefs_audio_quality').get_active()][0]
         self.__preferences["show_icon"] = self.builder.get_object('checkbutton_icon').get_active()
         
         self.save()
