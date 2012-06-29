@@ -79,7 +79,6 @@ class PreferencesPithosDialog(gtk.Dialog):
             "username":'',
             "password":'',
             "pandora_one":False,
-            "notify":False,
             "growl":False,
             "last_station_id":None,
             "proxy":'',
@@ -148,6 +147,7 @@ class PreferencesPithosDialog(gtk.Dialog):
         self.__preferences["username"] = self.builder.get_object('prefs_username').get_text()
         self.__preferences["password"] = self.builder.get_object('prefs_password').get_text()
         self.__preferences["pandora_one"] = self.builder.get_object('checkbutton_pandora_one').get_active()
+        self.__preferences["growl"] = self.builder.get_object('checkbutton_growl').get_active()
         self.__preferences["proxy"] = self.builder.get_object('prefs_proxy').get_text()
         self.__preferences["audio_quality"] = valid_audio_formats[self.builder.get_object('prefs_audio_quality').get_active()][0]
         self.__preferences["show_icon"] = self.builder.get_object('checkbutton_icon').get_active()
