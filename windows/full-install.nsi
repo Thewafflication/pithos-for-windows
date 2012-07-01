@@ -41,17 +41,16 @@ CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.
 !insertmacro MUI_STARTMENU_WRITE_END
 SectionEnd
 
-Section "Python 2.7.3"
-SetOutPath "$TEMP\Pithos"
-File "python-2.7.3.msi"
-ExecWait 'msiexec TARGETDIR="$PROGRAMFILES\Python" /i "$TEMP\Pithos\python-2.7.3.msi" /qn'
-SectionEnd
-
 Section "GStreamer 0.10.7"
 SetOutPath "$TEMP\Pithos"
 File "GStreamer-WinBuilds-GPL-x86-Beta04-0.10.7.msi"
-File "GStreamer-WinBuilds-SDK-GPL-x86-Beta04-0.10.7.msi"
 ExecWait 'msiexec /i "$TEMP\Pithos\GStreamer-WinBuilds-GPL-x86-Beta04-0.10.7.msi" /qn'
+SectionEnd
+
+Section "GStreamer 0.10.7 (SDK)"
+SectionIn RO
+SetOutPath "$TEMP\Pithos"
+File "GStreamer-WinBuilds-SDK-GPL-x86-Beta04-0.10.7.msi"
 ExecWait 'msiexec /i "$TEMP\Pithos\GStreamer-WinBuilds-SDK-GPL-x86-Beta04-0.10.7.msi" /qn+'
 # moving gstreamer stuff around sucks...
 StrCpy $switch_overwrite 1
@@ -61,6 +60,13 @@ StrCpy $switch_overwrite 1
 Delete "$PROGRAMFILES\OSSBuild\GStreamer\v0.10.7\lib\gstreamer-0.10\libgstpython-v2.6.dll"
 Delete "$PROGRAMFILES\OSSBuild\GStreamer\v0.10.7\lib\gstreamer-0.10\lib\site-packages\gst-0.10\"
 SectionEnd
+
+Section "Python 2.7.3"
+SetOutPath "$TEMP\Pithos"
+File "python-2.7.3.msi"
+ExecWait 'msiexec TARGETDIR="$PROGRAMFILES\Python" /i "$TEMP\Pithos\python-2.7.3.msi" /qn'
+SectionEnd
+
 
 Section "GTK 2.24"
 SetOutPath "$TEMP\Pithos"
