@@ -2,3 +2,7 @@ http://ossbuild.googlecode.com/files/GStreamer-WinBuilds-GPL-x86-Beta04-0.10.7.m
 http://ossbuild.googlecode.com/files/GStreamer-WinBuilds-SDK-GPL-x86-Beta04-0.10.7.msi
 http://ftp.gnome.org/pub/GNOME/binaries/win32/pygtk/2.24/pygtk-all-in-one-2.24.2.win32-py2.7.msi
 http://python.org/ftp/python/2.7.3/python-2.7.3.msi
+
+-- for plugins (mediakeys, growl) --
+http://sourceforge.net/projects/pyhook/files/
+https://github.com/kfdm/gntp/

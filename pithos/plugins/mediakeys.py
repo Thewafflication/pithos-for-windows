@@ -16,31 +16,25 @@
 
 from pithos.plugin import PithosPlugin
 import logging
+try:
+    import pyHook
+except ImportError:
+    logging.warning('Please install PyHook(http://sourceforge.net/projects/pyhook/files/')
 
 class MediaKeyPlugin(PithosPlugin):
-    preference = 'enable_mediakeys'
-    
-    def bind_keybinderwin32(self):
-        try: 
-            import win32api
-        except ImportError:
-            return False
-        
-        play_pause = win32api.MapVirtualKey(0xB3, 0)
-        next_button = win32api.MapVirtualKey(0xB0, 0)
+    preference = 'mediakeys'
 
-        while True:
-            if win32api.GetKeyState(play_pause) == 1:
-                self.window.playpause()
-
-            if win32api.GetKeyState(next_button) == 1:
-                self.window.next_song()
-
+    def kbevent(self, event):
+        if event.KeyID == 179 or event.Key == 'Media_Play_Pause':
+            self.window.playpause_notify()
+        if event.KeyID == 176 or event.Key == 'Media_Next_Track':
+            self.window.next_song()
         return True
         
     def on_enable(self):
-        pass #not working atm
-        #self.bind_keybinderwin32()
+        self.hookman = pyHook.HookManager()
+        self.hookman.KeyDown = self.kbevent
+        self.hookman.HookKeyboard()
         
     def on_disable(self):
-        logging.error("Not implemented: Can't disable media keys")
+        self.hookman.UnhookKeyboard()
