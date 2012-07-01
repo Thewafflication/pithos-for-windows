@@ -5,4 +5,6 @@ http://python.org/ftp/python/2.7.3/python-2.7.3.msi
 
 -- for plugins (mediakeys, growl) --
 http://sourceforge.net/projects/pyhook/files/
+http://sourceforge.net/projects/pywin32/files/pywin32/
+
 https://github.com/kfdm/gntp/
