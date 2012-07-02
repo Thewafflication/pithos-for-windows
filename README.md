@@ -6,11 +6,19 @@ than the Pandora.com web client.
 
 Installation
 -----------
-The installer is still a work in progress but check in the downloads section for one. There will be a minimal installer for updating or others who already have python. See [windows/redist.txt](https://github.com/TingPing/pithos-for-windows/blob/master/windows/redist.txt) for what you need installed. NOTE: Installer requires .net2+ and ran as Admin.
+Check the downloads section to get an installer.
+
+- Full Install: includes Python, Gstreamer, GTK. ([redist.txt](https://github.com/TingPing/pithos-for-windows/blob/master/windows/redist.txt) lists optional plugin modules)
+
+- Minimal Install: see [redist.txt](https://github.com/TingPing/pithos-for-windows/blob/master/windows/redist.txt).
+
+Installer requires .net2+ and ran as Admin and only download the most recent version.
 
 Notes
 -----
 Please comment or open issues for anything you'd like to see.
+
+The gstreamer installer is known to fail and create empty folders; Uninstall Gstreamer and reinstall to remedy this.
 
 ------------------
 
