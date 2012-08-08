@@ -12,7 +12,9 @@ Check the downloads section to get an installer.
 
 - Minimal Install: see [redist.txt](https://github.com/TingPing/pithos-for-windows/blob/master/windows/redist.txt).
 
-Installer requires .net2+ and ran as Admin and only download the most recent version.
+Installer requires .net2+ and ran as Admin.
+
+Only download the most recent version and if you have used Full installer once only update with Minimal installer.
 
 Notes
 -----
