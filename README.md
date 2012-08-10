@@ -6,7 +6,7 @@ than the Pandora.com web client.
 
 Installation
 -----------
-Check the downloads section to get an installer.
+Check the [downloads](https://github.com/TingPing/pithos-for-windows/downloads) section to get an installer.
 
 - Full Install: includes Python, Gstreamer, GTK. ([redist.txt](https://github.com/TingPing/pithos-for-windows/blob/master/windows/redist.txt) lists optional plugin modules)
 
