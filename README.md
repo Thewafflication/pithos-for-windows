@@ -8,9 +8,11 @@ Installation
 -----------
 Check the [downloads](https://github.com/TingPing/pithos-for-windows/downloads) section to get an installer.
 
-- Full Install: includes Python, Gstreamer, GTK. ([redist.txt](https://github.com/TingPing/pithos-for-windows/blob/master/windows/redist.txt) lists optional plugin modules)
+There is now only one installer, you must download/install all the extra ones manually due to them being embeded sometimes failing.
 
-- Minimal Install: see [redist.txt](https://github.com/TingPing/pithos-for-windows/blob/master/windows/redist.txt).
+See ([redist.txt](https://github.com/TingPing/pithos-for-windows/blob/master/windows/redist.txt) for what you need installed, some are required others optional.
+
+NOTE: The Pithos installer MUST be ran last.
 
 Installer requires .net2+ and ran as Admin.
 
