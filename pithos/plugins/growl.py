@@ -1,10 +1,6 @@
 from pithos.plugin import PithosPlugin
 from pithos.pithosconfig import get_data_file
 import logging
-try:
-	import gntp.notifier
-except(ImportError):
-	logging.error('Growl Error: gntp not installed: https://github.com/kfdm/gntp')
 
 class GrowlPlugin(PithosPlugin):
 	preference = 'growl'
@@ -13,6 +9,10 @@ class GrowlPlugin(PithosPlugin):
 		pass
 
 	def on_enable(self):
+		try: import gntp.notifier
+		except(ImportError):
+			logging.error('Growl Error: gntp not installed: https://github.com/kfdm/gntp')
+			return False
 		#temp hosting of icon
 		self.pithosicon = 'http://puu.sh/xnMA'
 		self.growl = gntp.notifier.GrowlNotifier(

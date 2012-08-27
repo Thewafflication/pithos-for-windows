@@ -16,10 +16,6 @@
 
 from pithos.plugin import PithosPlugin
 import logging
-try:
-    import pyHook
-except ImportError:
-    logging.warning('Please install PyHook(http://sourceforge.net/projects/pyhook/files/')
 
 class MediaKeyPlugin(PithosPlugin):
     preference = 'mediakeys'
@@ -32,6 +28,10 @@ class MediaKeyPlugin(PithosPlugin):
         return True
         
     def on_enable(self):
+        try: import pyHook
+        except ImportError:
+            logging.warning('Please install PyHook(http://sourceforge.net/projects/pyhook/files/')
+            return False
         self.hookman = pyHook.HookManager()
         self.hookman.KeyDown = self.kbevent
         self.hookman.HookKeyboard()
