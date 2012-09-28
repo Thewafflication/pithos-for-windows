@@ -12,7 +12,7 @@ There is now only one installer, you must download/install all the extra ones ma
 
 See [redist.txt](https://github.com/TingPing/pithos-for-windows/blob/master/windows/redist.txt) for what you need installed, some are required others optional.
 
-NOTE: The Pithos installer MUST be ran last, Installer requires .net2+ and ran as Admin.
+NOTE: The Pithos installer MUST be ran last. At the moment only Pandora One works, will be fixed eventually.
 
 
 Notes
