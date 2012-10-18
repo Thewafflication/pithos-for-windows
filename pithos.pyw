@@ -18,9 +18,13 @@
 
 
 import sys, os, time
-sys.path.append("%s\\OSSBuild\\GStreamer\\v0.10.7\\lib\\site-packages\\" %(os.environ["ProgramFiles"]))
-
-import gtk, gobject, pango, gst
+import pygtk
+pygtk.require('2.0')
+import gtk
+import pygst
+pygst.require('0.10')
+import gst
+import gobject, pango
 
 import cgi
 import webbrowser
@@ -375,6 +379,8 @@ class PithosWindow(gtk.Window):
 		self.buffer_percent = 100
 		self.player.set_property("uri", self.current_song.audioUrl)
 		self.play()
+		self.player.set_property("volume", self.preferences['volume']) # work around for volume reseting every song
+
 		self.playcount += 1
 					
 		self.current_song.start_time = time.time()
