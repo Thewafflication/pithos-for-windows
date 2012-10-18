@@ -8,18 +8,16 @@ Installation
 -----------
 Check the [downloads](https://github.com/TingPing/pithos-for-windows/downloads) section to get an installer.
 
-There is now only one installer, you must download/install all the extra ones manually due to them being embeded sometimes failing.
-
-See [redist.txt](https://github.com/TingPing/pithos-for-windows/blob/master/windows/redist.txt) for what you need installed, some are required others optional.
-
-NOTE: The Pithos installer MUST be ran last. At the moment only Pandora One works, will be fixed eventually.
-
+See [redist.txt](https://github.com/TingPing/pithos-for-windows/blob/master/windows/redist.txt) for optional plugin requirements.
 
 Notes
 -----
+
+You must remove pygtk if installed with an older version.
+
 Please comment or open issues for anything you'd like to see.
 
-The gstreamer installer is known to fail and create empty folders; Uninstall Gstreamer and reinstall to remedy this.
+If previous versions crashed please try out the newest version.
 
 ------------------
 
