@@ -22,7 +22,7 @@ If previous versions crashed please try out the newest version as this has been 
 
 ------------------
 
-![Pithos for Windows Screenshot](http://puu.sh/wZ5V)
+![Pithos for Windows Screenshot](http://i.imgur.com/PcAMD.png)
 
 ------------------
 
