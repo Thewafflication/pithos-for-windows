@@ -19,18 +19,19 @@ echo Detecting Pithos requirements (this may take a minute):
 
 REM Detect Python in the path
 for %%X in (%PYTHON_EXE%) do (set PYTHON_BIN=%%~$PATH:X)
-set PYTHON_VIA=environment
+if defined PYTHON_BIN set PYTHON_VIA=environment
 if defined PYTHON_BIN goto python_found
 
 REM No python in path, see if its in a default location. Prefer
 REM Python 2.7, since our installer ships with that as default
 set PYTHON_BIN=C:\Python27\%PYTHON_EXE%
-set PYTHON_VIA=hardocded
+set PYTHON_VIA=hardcoded
 if exist python goto python_found
 
 :python_found
 echo     Python                     : %PYTHON_BIN% (via %PYTHON_VIA%)
 if %PYTHON_VIA%==environment set PYTHON_BIN=%PYTHON_EXE%
+if %PYTHON_VIA%==hardcoded echo "If this is incorrect add the correct one to the PATH environment variable (google is your friend)"
 
 REM Detect GStreamer SDK
 set GST_VIA=environment
@@ -103,9 +104,7 @@ echo     GStreamer SDK Runtime      : not found
 echo.
 echo GStreamer SDK Runtime was not found. 
 echo.
-echo You can download the GST SDK runtime at http://www.gstreamer.com/
-echo.
-echo See %~dp0\README.Win32 for more information. 
+echo You can download the 32bit GST SDK runtime at http://www.gstreamer.com/
 echo.
 pause && goto end
 
@@ -116,9 +115,7 @@ echo The python bindings for GStreamer could not be imported. Please re-run the
 echo installer and ensure that the python bindings are selected for 
 echo installation (they should be selected by default). 
 echo.
-echo You can download the GST SDK runtime at http://www.gstreamer.com/
-echo.
-echo See %~dp0\README.Win32 for more information. 
+echo You can download the 32bit GST SDK runtime at http://www.gstreamer.com/ 
 echo.
 pause && goto end
 
@@ -131,9 +128,7 @@ echo.
 echo Note that the PyGTK all-in-one installer is NOT compatible with
 echo the GStreamer SDK. Please Uninstall it.
 echo.
-echo You can download the GST SDK runtime at http://www.gstreamer.com/
-echo.
-echo See %~dp0\README.Win32 for more information. 
+echo You can download the 32bit GST SDK runtime at http://www.gstreamer.com/
 echo.
 pause && goto end
 
