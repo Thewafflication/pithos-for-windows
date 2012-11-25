@@ -37,7 +37,7 @@ REM Detect GStreamer SDK
 set GST_VIA=environment
 set GST_SDK=N
 if defined GSTREAMER_SDK_ROOT_X86 set GST_SDK=%GSTREAMER_SDK_ROOT_X86%
-if defined GSTREAMER_SDK_ROOT_X64 set GST_SDK=%GSTREAMER_SDK_ROOT_X64%
+if defined GSTREAMER_SDK_ROOT_X86_64 set GST_SDK=%GSTREAMER_SDK_ROOT_X64%
 
 if not "%GST_SDK%" == "N" goto pygst_env_found
 
@@ -45,7 +45,7 @@ REM For some reason the GStreamer SDK doesn't define the environment
 REM variables globally, so we just have to cheat if we can't do it
 REM the 'correct' way
 if exist C:\gstreamer-sdk\0.10\x86\bin goto found_pygst_x86_hardcoded
-if exist C:\gstreamer-sdk\0.10\x64\bin goto found_pygst_x64_hardcoded
+if exist C:\gstreamer-sdk\0.10\x86_64\bin goto found_pygst_x64_hardcoded
 goto nogst
 
 :found_pygst_x86_hardcoded
@@ -55,7 +55,7 @@ set GST_VIA=hardcoded path
 goto pygst_env_found
 
 :found_pygst_x64_hardcoded
-set GSTREAMER_SDK_ROOT_X64=C:\gstreamer-sdk\0.10\x64
+set GSTREAMER_SDK_ROOT_X64=C:\gstreamer-sdk\0.10\x86_64
 set GST_SDK=%GSTREAMER_SDK_ROOT_X64%
 set GST_VIA=hardcoded path
 goto pygst_env_found
