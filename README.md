@@ -7,6 +7,8 @@ Installation
 -----------
 Download Version 8 [here](http://dl.tingping.se/pithos_for_windows/Pithos_Installer-Version8.exe) and read notes below.
 
+64bit users can just download this [zip](https://github.com/TingPing/pithos-for-windows/archive/master.zip) and extract it, though 64bit isn't recommended and you will have to manage the dependencies yourself.
+
 See [redist.txt](https://github.com/TingPing/pithos-for-windows/blob/master/windows/redist.txt) for optional plugin requirements.
 
 Notes
