@@ -18,8 +18,6 @@ You must remove pygtk if installed with an older version.
 
 If Python is installed to a custom directory(not C:\python27) it must be in the PATH environment variable to work (google to find out how) 
 
-Please comment or open issues for anything you'd like to see.
-
 If previous versions crashed please try out the newest version as this has been resolved.
 
 ------------------
