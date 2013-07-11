@@ -74,6 +74,9 @@ set PYGST_BINDINGS=%GST_SDK%\lib\python2.7\site-packages
 if defined PYTHONPATH set PYTHONPATH=%PYGST_BINDINGS%;%PYTHONPATH%
 if not defined PYTHONPATH set PYTHONPATH=%PYGST_BINDINGS%
 
+:: Do this in case user has installed Python33 and selected for it to be added to PATH. Pithos does not work with Python33, it gives an exit code ^> 0.
+if exist "C:\Python27\%PYTHON_BIN%" set "PYTHON_BIN=C:\Python27\%PYTHON_BIN%"
+
 %PYTHON_BIN% -c "import pygst;pygst.require('0.10');import gst"
 if not %ERRORLEVEL% == 0 goto badgst
 
