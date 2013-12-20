@@ -37,7 +37,7 @@ REM Detect GStreamer SDK
 set GST_VIA=environment
 set GST_SDK=N
 if defined GSTREAMER_SDK_ROOT_X86 set GST_SDK=%GSTREAMER_SDK_ROOT_X86%
-if defined GSTREAMER_SDK_ROOT_X86_64 set GST_SDK=%GSTREAMER_SDK_ROOT_X64%
+if defined GSTREAMER_SDK_ROOT_X86_64 set GST_SDK=%GSTREAMER_SDK_ROOT_X86_64%
 
 if not "%GST_SDK%" == "N" goto pygst_env_found
 
