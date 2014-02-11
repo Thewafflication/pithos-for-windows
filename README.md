@@ -3,6 +3,9 @@ Pithos for Windows
 
 Pithos is a native Pandora Radio client for ~~Linux~~ Windows. It's much more lightweight than the Pandora.com web client.
 
+**NOTE** This project is no longer maintained, upstream [Pithos](https://github.com/pithos/pithos) is active again and now has basic Windows support. This version is currently still easier to install and use but over the next many months hopefully this will change.
+
+
 Installation
 -----------
 Newest release can be found [here](https://github.com/TingPing/pithos-for-windows/releases) and read notes below.
